@@ -9,6 +9,6 @@ import (
 
 func main() {
 	router := api.NewRouter()
-	log.Println("Main running...")
+	log.Println("Main running..")
 	log.Println(http.ListenAndServe(":5000", router))
 }
