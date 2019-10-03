@@ -14,5 +14,8 @@ func NewEmployeeRepo(db *gorm.DB) EmployeeRepoIMPL {
 }
 
 func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
+	createUser := e.Db.Table("employees").Create(&emp)
+	if createUser.Error != nil 
+		fmt.Println("error ",createUser.Error)
 	return nil
 }
