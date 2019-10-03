@@ -8,4 +8,5 @@ type Employee struct {
 	FirstName string    `json:"first_name" gorm:"first_name"`
 	LastName  string    `json:"last_name" gorm:"last_name"`
 	Gender    string    `json:"gender" gorm:"gender"`
+	HireDate  time.Time `json:"hire_date" gorm:"hire_date"`
 }
