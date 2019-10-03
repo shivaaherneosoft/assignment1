@@ -24,7 +24,6 @@ func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
 	return nil
 }
 
-//Read -
 func (e *EmployeeRepoIMPL) Read(empno int32) error {
 	emp := models.Employee{}
 	getEmployee := e.Db.Table("employees").Where("emp_no = ?", empno).Find(&emp)
@@ -44,18 +43,6 @@ func (e *EmployeeRepoIMPL) Edit(emp models.Employee) error {
 	if updateEmp.Error != nil {
 		fmt.Println("error ", updateEmp.Error)
 		return updateEmp.Error
-	}
-
-	return nil
-}
-
-//Delete -
-func (e *EmployeeRepoIMPL) Delete(emp models.Employee) error {
-	deleteEmp := e.Db.Delete(&emp)
-
-	if deleteEmp.Error != nil {
-		fmt.Println("error ", deleteEmp.Error)
-		return deleteEmp.Error
 	}
 
 	return nil

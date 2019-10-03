@@ -51,11 +51,11 @@ func (e *EmployeeRepoIMPL) Edit(emp models.Employee) error {
 
 //Delete -
 func (e *EmployeeRepoIMPL) Delete(emp models.Employee) error {
-	deleteEmp := e.Db.Delete(&emp)
+	db.Delete(&emp)
 
-	if deleteEmp.Error != nil {
-		fmt.Println("error ", deleteEmp.Error)
-		return deleteEmp.Error
+	if updateEmp.Error != nil {
+		fmt.Println("error ", updateEmp.Error)
+		return updateEmp.Error
 	}
 
 	return nil
