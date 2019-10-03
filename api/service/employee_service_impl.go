@@ -13,6 +13,11 @@ func NewEmployeeService(repo repository.EmployeeRepo) EmployeeServiceIMPL {
 	return EmployeeServiceIMPL{EmployeeRepo: repo}
 }
 
-func (e *EmployeeServiceIMPL) Create(emp models.Employee) error {
-	return e.EmployeeRepo.Create(emp)
+func (e *EmployeeServiceIMPL) Create(employees []models.Employee) error {
+	for _, emp := range employees {
+		if err := e.EmployeeRepo.Create(emp); err != nil {
+			return err
+		}
+	}
+	return nil
 }

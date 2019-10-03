@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -22,14 +23,37 @@ func NewEmployeeHandler(service service.EmployeeService) EmployeeHandler {
 }
 
 func (e *EmployeeHandler) Create(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	decoder := json.NewDecoder(r.Body)
-	var employee models.Employee
-	err := decoder.Decode(&employee)
-	if err != nil {
-		panic(err)
-	}
-	log.Println(employee)
 
-	err = e.EmployeeService.Create(employee)
-	fmt.Println("err:", err)
+	var employees []models.Employee
+	body, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+
+	if err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("invalid payload"))
+		return
+	} else {
+		err = json.Unmarshal(body, &employees)
+		if err != nil {
+			fmt.Println("[ERROR]:", err)
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("invalid payload"))
+			return
+		}
+
+	}
+
+	log.Println("Employee:", employees)
+
+	err = e.EmployeeService.Create(employees)
+	if err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("internal server error"))
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("employee created successfully!"))
 }
