@@ -32,7 +32,7 @@ func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(30 * time.Minute)
 	claims := &models.Claims{
 		Username: creds.Username,
 		StandardClaims: jwt.StandardClaims{
