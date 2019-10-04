@@ -21,3 +21,7 @@ func (e *DepartmentServiceIMPL) Create(departments []models.Department) error {
 	}
 	return nil
 }
+
+func (e *DepartmentServiceIMPL) Read(empid int32) (models.Department, error) {
+	return e.DepartmentRepo.Read(empid)
+}

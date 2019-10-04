@@ -38,6 +38,7 @@ func NewRouter() *httprouter.Router {
 	departmentHandler := handler.NewDepartmentHandler(&departmentService)
 
 	router.POST("/E04/departments", middleware.ProtectRequest(departmentHandler.Create))
+	router.GET("/E05/departments/:id", middleware.ProtectRequest(departmentHandler.Read))
 
 	return router
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/shivaaherneosoft/assignment1/api/models"
@@ -46,4 +47,18 @@ func (d *DepartmentHandler) Create(w http.ResponseWriter, r *http.Request, _ htt
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
+}
+
+func (d *DepartmentHandler) Read(w http.ResponseWriter, r *http.Request, path httprouter.Params) {
+	pathvariable := path.ByName("id")
+	empid, _ := strconv.ParseInt(pathvariable, 10, 32)
+
+	if response, err := d.DepartmentService.Read(int32(empid)); err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(response)
+	}
 }
