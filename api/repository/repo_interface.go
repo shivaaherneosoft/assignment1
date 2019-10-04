@@ -9,5 +9,5 @@ type EmployeeRepo interface {
 }
 
 type DepartmentRepo interface {
-	Create()
+	Create(dept models.Department) error
 }
