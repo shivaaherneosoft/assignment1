@@ -13,21 +13,15 @@ import (
 
 func ProtectRequest(handleFunc httprouter.Handle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-		c, err := r.Cookie("token")
-		if err != nil {
-			if err == http.ErrNoCookie {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
-			w.WriteHeader(http.StatusBadRequest)
+		authtoken := r.Header.Get("Authorization")
+		if authtoken == "" {
+			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
 
-		tknStr := c.Value
-
 		claims := &models.Claims{}
 
-		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		tkn, err := jwt.ParseWithClaims(authtoken, claims, func(token *jwt.Token) (interface{}, error) {
 			return config.CONFIG.JWTKey, nil
 		})
 		if err != nil {

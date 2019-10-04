@@ -49,11 +49,15 @@ func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
-		Name:    "token",
-		Value:   tokenString,
-		Expires: expirationTime,
-	})
+	authtoken := models.AuthResponse{Token: tokenString}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(authtoken)
+
+	// http.SetCookie(w, &http.Cookie{
+	// 	Name:    "token",
+	// 	Value:   tokenString,
+	// 	Expires: expirationTime,
+	// })
 }
 
 func Refresh(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
