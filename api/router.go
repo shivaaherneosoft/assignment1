@@ -5,6 +5,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/shivaaherneosoft/assignment1/api/handler"
+	"github.com/shivaaherneosoft/assignment1/api/middleware"
 	"github.com/shivaaherneosoft/assignment1/api/repository"
 	"github.com/shivaaherneosoft/assignment1/api/service"
 	"github.com/shivaaherneosoft/assignment1/mysqlpkg"
@@ -19,8 +20,9 @@ func NewRouter() *httprouter.Router {
 	}
 	repo := repository.NewEmployeeRepo(db)
 	service := service.NewEmployeeService(&repo)
-	handler := handler.NewEmployeeHandler(&service)
+	emphandler := handler.NewEmployeeHandler(&service)
 
-	router.POST("/employees", handler.Create)
+	router.POST("/employees", middleware.ProtectRequest(emphandler.Create))
+	router.POST("/signin", handler.Signin) 
 	return router
 }

@@ -5,10 +5,15 @@ import (
 	"net/http"
 
 	"github.com/shivaaherneosoft/assignment1/api"
+	"github.com/shivaaherneosoft/assignment1/config"
 )
+
+func init() {
+	config.SetConfig()
+}
 
 func main() {
 	router := api.NewRouter()
-	log.Println("Main running...")
+	log.Println("starting server...")
 	log.Println(http.ListenAndServe(":5000", router))
 }
