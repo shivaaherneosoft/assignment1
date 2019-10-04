@@ -23,6 +23,8 @@ func NewRouter() *httprouter.Router {
 	emphandler := handler.NewEmployeeHandler(&service)
 
 	router.POST("/employees", middleware.ProtectRequest(emphandler.Create))
-	router.POST("/signin", handler.Signin) 
+	router.GET("/employees", middleware.ProtectRequest(emphandler.Create))
+	router.POST("/signin", handler.Signin)
+	router.POST("/refresh", handler.Refresh)
 	return router
 }

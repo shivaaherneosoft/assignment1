@@ -17,13 +17,8 @@ var users = map[string]string{
 	"user2": "password2",
 }
 
-type Credentials struct {
-	Password string `json:"password"`
-	Username string `json:"username"`
-}
-
 func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var creds Credentials
+	var creds models.Credentials
 	err := json.NewDecoder(r.Body).Decode(&creds)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -61,7 +56,7 @@ func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	})
 }
 
-func Refresh(w http.ResponseWriter, r *http.Request) {
+func Refresh(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	c, err := r.Cookie("token")
 	if err != nil {
 		if err == http.ErrNoCookie {
