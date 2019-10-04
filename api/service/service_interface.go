@@ -7,3 +7,7 @@ type EmployeeService interface {
 	Read(int32) (models.Employee, error)
 	Update([]models.Employee) error
 }
+
+type DepartmentService interface {
+	Create([]models.Department) error
+}

@@ -31,14 +31,12 @@ func (e *EmployeeHandler) Create(w http.ResponseWriter, r *http.Request, _ httpr
 	if err != nil {
 		fmt.Println("[ERROR]:", err)
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("invalid payload"))
 		return
 	} else {
 		err = json.Unmarshal(body, &employees)
 		if err != nil {
 			fmt.Println("[ERROR]:", err)
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("invalid payload"))
 			return
 		}
 
@@ -48,11 +46,9 @@ func (e *EmployeeHandler) Create(w http.ResponseWriter, r *http.Request, _ httpr
 	if err != nil {
 		fmt.Println("[ERROR]:", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("internal server error"))
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("employee created successfully!"))
 }
 
 func (e *EmployeeHandler) Read(w http.ResponseWriter, r *http.Request, path httprouter.Params) {
@@ -62,7 +58,6 @@ func (e *EmployeeHandler) Read(w http.ResponseWriter, r *http.Request, path http
 	if response, err := e.EmployeeService.Read(int32(empid)); err != nil {
 		fmt.Println("[ERROR]:", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("internal server error"))
 		return
 	} else {
 		w.WriteHeader(http.StatusOK)
@@ -79,14 +74,12 @@ func (e *EmployeeHandler) Update(w http.ResponseWriter, r *http.Request, _ httpr
 	if err != nil {
 		fmt.Println("[ERROR]:", err)
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("invalid payload"))
 		return
 	} else {
 		err = json.Unmarshal(body, &employees)
 		if err != nil {
 			fmt.Println("[ERROR]:", err)
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("invalid payload"))
 			return
 		}
 
@@ -96,9 +89,7 @@ func (e *EmployeeHandler) Update(w http.ResponseWriter, r *http.Request, _ httpr
 	if err != nil {
 		fmt.Println("[ERROR]:", err)
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("internal server error"))
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("employee updated successfully!"))
 }

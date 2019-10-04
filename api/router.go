@@ -18,15 +18,26 @@ func NewRouter() *httprouter.Router {
 	if err != nil {
 		os.Exit(1)
 	}
-	repo := repository.NewEmployeeRepo(db)
-	service := service.NewEmployeeService(&repo)
-	emphandler := handler.NewEmployeeHandler(&service)
 
-	router.POST("/E01/employees", middleware.ProtectRequest(emphandler.Create))
-	router.GET("/E02/employees/:id", middleware.ProtectRequest(emphandler.Read))
-	router.PATCH("/E03/employees", middleware.ProtectRequest(emphandler.Update))
-
+	//Authorization endpoints
 	router.POST("/signin", handler.Signin)
 	router.POST("/refresh", handler.Refresh)
+
+	//Employee endpoints
+	employeeRepo := repository.NewEmployeeRepo(db)
+	employeeService := service.NewEmployeeService(&employeeRepo)
+	employeeHandler := handler.NewEmployeeHandler(&employeeService)
+
+	router.POST("/E01/employees", middleware.ProtectRequest(employeeHandler.Create))
+	router.GET("/E02/employees/:id", middleware.ProtectRequest(employeeHandler.Read))
+	router.PATCH("/E03/employees", middleware.ProtectRequest(employeeHandler.Update))
+
+	//Department endpoints
+	departmentRepo := repository.NewDepartmentRepo(db)
+	departmentService := service.NewDepartmentService(&departmentRepo)
+	departmentHandler := handler.NewDepartmentHandler(&departmentService)
+
+	router.POST("/E04/departments", middleware.ProtectRequest(departmentHandler.Create))
+
 	return router
 }
