@@ -13,15 +13,25 @@ func NewDepartmentService(repo repository.DepartmentRepo) DepartmentServiceIMPL 
 	return DepartmentServiceIMPL{DepartmentRepo: repo}
 }
 
-func (e *DepartmentServiceIMPL) Create(departments []models.Department) error {
+func (d *DepartmentServiceIMPL) Create(departments []models.Department) error {
 	for _, dept := range departments {
-		if err := e.DepartmentRepo.Create(dept); err != nil {
+		if err := d.DepartmentRepo.Create(dept); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (e *DepartmentServiceIMPL) Read(empid int32) (models.Department, error) {
-	return e.DepartmentRepo.Read(empid)
+func (d *DepartmentServiceIMPL) Read(empid int32) (models.Department, error) {
+	return d.DepartmentRepo.Read(empid)
+}
+
+
+func (d *DepartmentServiceIMPL) Update(departments []models.Department) error {
+	for _, dept := range departments {
+		if err := d.DepartmentRepo.Update(dept); err != nil {
+			return err
+		}
+	}
+	return nil
 }

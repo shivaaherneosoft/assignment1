@@ -11,4 +11,5 @@ type EmployeeService interface {
 type DepartmentService interface {
 	Create([]models.Department) error
 	Read(int32) (models.Department, error)
+	Update([]models.Department) error
 }

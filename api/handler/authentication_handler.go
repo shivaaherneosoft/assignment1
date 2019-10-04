@@ -98,7 +98,7 @@ func Refresh(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	authtoken := models.AuthResponse{Token: tokenString}
+	response := models.AuthResponse{Token: tokenString}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(authtoken)
+	json.NewEncoder(w).Encode(response)
 }

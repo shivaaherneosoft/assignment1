@@ -62,3 +62,30 @@ func (d *DepartmentHandler) Read(w http.ResponseWriter, r *http.Request, path ht
 		json.NewEncoder(w).Encode(response)
 	}
 }
+
+func (d *DepartmentHandler) Update(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var departments []models.Department
+	body, err := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+
+	if err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	} else {
+		err = json.Unmarshal(body, &departments)
+		if err != nil {
+			fmt.Println("[ERROR]:", err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+	}
+	err = d.DepartmentService.Update(departments)
+	if err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusCreated)
+}

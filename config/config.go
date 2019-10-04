@@ -14,6 +14,7 @@ func SetConfig() {
 	accessctrl["E03"] = map[string]bool{"admin": true}
 	accessctrl["E04"] = map[string]bool{"admin": true}
 	accessctrl["E05"] = map[string]bool{"admin": true}
+	accessctrl["E06"] = map[string]bool{"admin": true}
 
 	CONFIG = ConfigParam{JWTKey: []byte("mysecretkey"), AccessControl: accessctrl}
 }

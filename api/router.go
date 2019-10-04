@@ -39,6 +39,7 @@ func NewRouter() *httprouter.Router {
 
 	router.POST("/E04/departments", middleware.ProtectRequest(departmentHandler.Create))
 	router.GET("/E05/departments/:id", middleware.ProtectRequest(departmentHandler.Read))
+	router.PATCH("/E06/departments", middleware.ProtectRequest(departmentHandler.Update))
 
 	return router
 }
