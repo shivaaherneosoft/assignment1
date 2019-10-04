@@ -40,9 +40,10 @@ func (d *DepartmentRepoImpl) Read(deptno int32) (models.Department, error) {
 }
 
 //Edit - edit depart details
-func (d *DepartmentRepoImpl) Edit(dept models.Department) error {
-	d.DB.First(&dept)
-	updateDept := d.DB.Save(&dept)
+func (d *DepartmentRepoImpl) Update(dept models.Department) error {
+	// d.DB.First(&dept)
+	// updateDept := d.DB.Save(&dept)
+	updateDept := d.DB.Model(&dept).Omit("dept_no").Updates(&dept)
 	if updateDept.Error != nil {
 		fmt.Println("error ", updateDept.Error)
 		return updateDept.Error

@@ -5,6 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/shivaaherneosoft/assignment1/api/models"
 )
 
 func Open() (*gorm.DB, error) {
@@ -13,5 +14,7 @@ func Open() (*gorm.DB, error) {
 		fmt.Println("ERROR:", err)
 		return nil, err
 	}
+
+	db.AutoMigrate(&models.Employee{}, &models.Department{}, &models.DeptEmp{}, &models.DeptManager{}, &models.Salary{}, &models.Titles{})
 	return db, nil
 }
