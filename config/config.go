@@ -2,16 +2,16 @@ package config
 
 type ConfigParam struct {
 	JWTKey        []byte
-	AccessControl map[string]map[string]map[string]bool
+	AccessControl map[string]map[string]bool
 }
 
 var CONFIG ConfigParam
 
 func SetConfig() {
-	accessctrl := make(map[string]map[string]map[string]bool)
-	accessctrl["/employees"] = map[string]map[string]bool{"POST": map[string]bool{"admin": true},
-		"GET":    map[string]bool{"admin": true},
-		"DELETE": map[string]bool{"admin": false}}
+	accessctrl := make(map[string]map[string]bool)
+	accessctrl["E01"] = map[string]bool{"admin": true}
+	accessctrl["E02"] = map[string]bool{"admin": true}
+	accessctrl["E03"] = map[string]bool{"admin": true}
 
 	CONFIG = ConfigParam{JWTKey: []byte("mysecretkey"), AccessControl: accessctrl}
 }

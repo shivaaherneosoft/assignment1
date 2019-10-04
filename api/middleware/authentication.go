@@ -3,6 +3,7 @@ package middleware
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/julienschmidt/httprouter"
@@ -42,6 +43,7 @@ func ProtectRequest(handleFunc httprouter.Handle) httprouter.Handle {
 			return
 		}
 
+		//check access level of user from roleid
 		if AccessControl(r, claims.Id) {
 			//valid and privileged user request
 			handleFunc(w, r, params)
@@ -53,12 +55,11 @@ func ProtectRequest(handleFunc httprouter.Handle) httprouter.Handle {
 }
 
 func AccessControl(r *http.Request, roleid string) bool {
-	reqUri := r.RequestURI
-	reqMethod := r.Method
-	privilege := config.CONFIG.AccessControl[reqUri][reqMethod][roleid]
 
-	fmt.Println("URI:", reqUri)
-	fmt.Println("Method:", reqMethod)
+	requestId := strings.SplitN(r.RequestURI, "/", 3)[1]
+	privilege := config.CONFIG.AccessControl[requestId][roleid]
+
+	fmt.Println("requestId:", requestId)
 	fmt.Println("Roleid:", roleid)
 	fmt.Println("Privilege:", privilege)
 	return privilege
