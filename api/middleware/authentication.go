@@ -29,9 +29,16 @@ func ProtectRequest(handleFunc httprouter.Handle) httprouter.Handle {
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
+
+			if !tkn.Valid {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+
 		if !tkn.Valid {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
@@ -50,10 +57,14 @@ func ProtectRequest(handleFunc httprouter.Handle) httprouter.Handle {
 
 func AccessControl(r *http.Request, roleid string) bool {
 
-	requestId := strings.SplitN(r.RequestURI, "/", 3)[1]
-	privilege := config.CONFIG.AccessControl[requestId][roleid]
+	// requestId := strings.SplitN(r.RequestURI, "/", 3)[1]
+	// privilege := config.CONFIG.AccessControl[requestId][roleid]
 
-	fmt.Println("requestId:", requestId)
+	reqUri := strings.SplitN(r.RequestURI, "/", 3)[1]
+	reqMethod := r.Method
+	privilege := config.CONFIG.AccessControl[reqUri][reqMethod][roleid]
+
+	fmt.Println("reqUri:", reqUri)
 	fmt.Println("Roleid:", roleid)
 	fmt.Println("Privilege:", privilege)
 	return privilege
