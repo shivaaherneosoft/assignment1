@@ -31,7 +31,7 @@ func NewRouter() *httprouter.Router {
 	router.POST("/E01/employees", middleware.ProtectRequest(employeeHandler.Create))
 	router.GET("/E02/employees/:id", middleware.ProtectRequest(employeeHandler.Read))
 	router.PATCH("/E03/employees", middleware.ProtectRequest(employeeHandler.Update))
-	router.DELETE("/E04/employees", middleware.ProtectRequest(employeeHandler.Update))
+	router.DELETE("/E04/employees", middleware.ProtectRequest(employeeHandler.Delete))
 
 	//Department endpoints
 	departmentRepo := repository.NewDepartmentRepo(db)
@@ -41,6 +41,7 @@ func NewRouter() *httprouter.Router {
 	router.POST("/E05/departments", middleware.ProtectRequest(departmentHandler.Create))
 	router.GET("/E06/departments/:id", middleware.ProtectRequest(departmentHandler.Read))
 	router.PATCH("/E07/departments", middleware.ProtectRequest(departmentHandler.Update))
+	router.DELETE("/E08/departments", middleware.ProtectRequest(departmentHandler.Delete))
 
 	return router
 }
