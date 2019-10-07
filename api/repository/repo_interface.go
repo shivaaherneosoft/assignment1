@@ -10,7 +10,14 @@ type EmployeeRepo interface {
 }
 
 type DepartmentRepo interface {
+<<<<<<< Updated upstream
 	Create(models.Department) error
 	Read(int32) (models.Department, error)
 	Update(models.Department) error
+=======
+	Create()
+	Read(int32) (models.Department, error)
+	//	Update()
+	//	Delete()
+>>>>>>> Stashed changes
 }
