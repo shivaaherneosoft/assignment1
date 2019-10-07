@@ -41,13 +41,7 @@ func (d *DepartmentRepoImpl) Read(deptno int32) (models.Department, error) {
 
 //Edit - edit depart details
 func (d *DepartmentRepoImpl) Update(dept models.Department) error {
-<<<<<<< Updated upstream
 	updateDept := d.DB.Model(&dept).Omit("id").Updates(&dept)
-=======
-	// d.DB.First(&dept)
-	// updateDept := d.DB.Save(&dept)
-	updateDept := d.DB.Model(&dept).Omit("dept_no").Updates(&dept)
->>>>>>> Stashed changes
 	if updateDept.Error != nil {
 		fmt.Println("error ", updateDept.Error)
 		return updateDept.Error

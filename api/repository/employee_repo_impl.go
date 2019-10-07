@@ -21,6 +21,27 @@ func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
 		fmt.Println("error ", createUser.Error)
 		return createUser.Error
 	}
+	emp.DeptEmp.EmpNo = int32(emp.ID)
+	deptEmp := e.Db.Table("dept_emps").Create(&emp.DeptEmp)
+	if deptEmp.Error != nil {
+		fmt.Println("error1 ", deptEmp.Error)
+		return deptEmp.Error
+	}
+
+	emp.Salary.EmpNo = int32(emp.ID)
+	salaryEmp := e.Db.Table("salaries").Create(&emp.Salary)
+	if salaryEmp.Error != nil {
+		fmt.Println("error2 ", salaryEmp.Error)
+		return salaryEmp.Error
+	}
+
+	emp.Titles.EmpNo = int32(emp.ID)
+	titlesEmp := e.Db.Table("titles").Create(&emp.Titles)
+	if titlesEmp.Error != nil {
+		fmt.Println("error2 ", titlesEmp.Error)
+		return titlesEmp.Error
+	}
+
 	return nil
 }
 
