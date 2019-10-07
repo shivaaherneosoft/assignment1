@@ -22,7 +22,7 @@ func (e *EmployeeServiceIMPL) Create(employees []models.Employee) error {
 	return nil
 }
 
-func (e *EmployeeServiceIMPL) Read(empid int32) (models.Employee, error) {
+func (e *EmployeeServiceIMPL) Read(empid int32) (models.EmployeeResponse, error) {
 	return e.EmployeeRepo.Read(empid)
 }
 
