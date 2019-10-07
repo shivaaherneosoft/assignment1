@@ -34,3 +34,7 @@ func (d *DepartmentServiceIMPL) Update(departments []models.Department) error {
 	}
 	return nil
 }
+
+func (d *DepartmentServiceIMPL) Delete(empid int32) error {
+	return d.DepartmentRepo.Delete(empid)
+}

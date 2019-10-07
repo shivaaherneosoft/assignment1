@@ -89,3 +89,16 @@ func (d *DepartmentHandler) Update(w http.ResponseWriter, r *http.Request, _ htt
 	}
 	w.WriteHeader(http.StatusCreated)
 }
+
+func (d *DepartmentHandler) Delete(w http.ResponseWriter, r *http.Request, path httprouter.Params) {
+	pathvariable := path.ByName("id")
+	deptno, _ := strconv.ParseInt(pathvariable, 10, 32)
+
+	if err := d.DepartmentService.Delete(int32(deptno)); err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}
