@@ -93,3 +93,16 @@ func (e *EmployeeHandler) Update(w http.ResponseWriter, r *http.Request, _ httpr
 	}
 	w.WriteHeader(http.StatusCreated)
 }
+
+func (e *EmployeeHandler) Delete(w http.ResponseWriter, r *http.Request, path httprouter.Params) {
+	pathvariable := path.ByName("id")
+	empid, _ := strconv.ParseInt(pathvariable, 10, 32)
+
+	if err := e.EmployeeService.Delete(int32(empid)); err != nil {
+		fmt.Println("[ERROR]:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}

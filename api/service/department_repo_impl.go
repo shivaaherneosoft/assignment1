@@ -26,7 +26,6 @@ func (d *DepartmentServiceIMPL) Read(empid int32) (models.Department, error) {
 	return d.DepartmentRepo.Read(empid)
 }
 
-
 func (d *DepartmentServiceIMPL) Update(departments []models.Department) error {
 	for _, dept := range departments {
 		if err := d.DepartmentRepo.Update(dept); err != nil {

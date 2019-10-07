@@ -34,3 +34,7 @@ func (e *EmployeeServiceIMPL) Update(employees []models.Employee) error {
 	}
 	return nil
 }
+
+func (e *EmployeeServiceIMPL) Delete(empid int32) error {
+	return e.EmployeeRepo.Delete(empid)
+}

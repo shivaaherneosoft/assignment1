@@ -48,8 +48,9 @@ func (e *EmployeeRepoIMPL) Update(emp models.Employee) error {
 }
 
 //Delete -
-func (e *EmployeeRepoIMPL) Delete(emp models.Employee) error {
-	deleteEmp := e.Db.Delete(&emp)
+func (e *EmployeeRepoIMPL) Delete(empid int32) error {
+	emp := models.Employee{}
+	deleteEmp := e.Db.Where("age = ?", empid).Delete(&emp)
 	if deleteEmp.Error != nil {
 		fmt.Println("error ", deleteEmp.Error)
 		return deleteEmp.Error

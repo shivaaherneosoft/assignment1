@@ -31,15 +31,16 @@ func NewRouter() *httprouter.Router {
 	router.POST("/E01/employees", middleware.ProtectRequest(employeeHandler.Create))
 	router.GET("/E02/employees/:id", middleware.ProtectRequest(employeeHandler.Read))
 	router.PATCH("/E03/employees", middleware.ProtectRequest(employeeHandler.Update))
+	router.DELETE("/E04/employees", middleware.ProtectRequest(employeeHandler.Update))
 
 	//Department endpoints
 	departmentRepo := repository.NewDepartmentRepo(db)
 	departmentService := service.NewDepartmentService(&departmentRepo)
 	departmentHandler := handler.NewDepartmentHandler(&departmentService)
 
-	router.POST("/E04/departments", middleware.ProtectRequest(departmentHandler.Create))
-	router.GET("/E05/departments/:id", middleware.ProtectRequest(departmentHandler.Read))
-	router.PATCH("/E06/departments", middleware.ProtectRequest(departmentHandler.Update))
+	router.POST("/E05/departments", middleware.ProtectRequest(departmentHandler.Create))
+	router.GET("/E06/departments/:id", middleware.ProtectRequest(departmentHandler.Read))
+	router.PATCH("/E07/departments", middleware.ProtectRequest(departmentHandler.Update))
 
 	return router
 }
