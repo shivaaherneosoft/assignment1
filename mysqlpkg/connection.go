@@ -15,6 +15,6 @@ func Open() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(&models.Employee{}, &models.Department{}, &models.DeptEmp{}, &models.DeptManager{}, &models.Salary{}, &models.Titles{})
+	db.AutoMigrate(&models.Employee{}, &models.Department{}, &models.DeptEmp{}, &models.DeptManager{}, &models.EmployeeSalary{}, &models.Titles{})
 	return db, nil
 }
