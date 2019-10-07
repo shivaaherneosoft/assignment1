@@ -26,3 +26,13 @@ type Titles struct {
 	FromDate time.Time
 	ToDate   time.Time
 }
+
+type EmployeeResponse struct {
+	EmpID      int32      `json:"id" gorm:"id"`
+	BirthDate  time.Time  `json:"birth_date" gorm:"birth_date"`
+	FirstName  string     `json:"first_name" gorm:"first_name"`
+	LastName   string     `json:"last_name" gorm:"last_name"`
+	Gender     string     `json:"gender" gorm:"gender"`
+	HireDate   time.Time  `json:"hire_date" gorm:"hire_date"`
+	Department Department `json:"department"`
+}
