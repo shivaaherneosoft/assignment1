@@ -12,10 +12,10 @@ import (
 	"github.com/shivaaherneosoft/assignment1/config"
 )
 
-var users = map[string]string{
-	"user1": "password1",
-	"user2": "password2",
-}
+// var users = map[string]string{
+// 	"user1": "password1",
+// 	"user2": "password2",
+// }
 
 func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var creds models.Credentials
@@ -25,19 +25,27 @@ func Signin(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	expectedPassword, ok := users[creds.Username]
+	expectedPassword, ok := config.CONFIG.Users[creds.Username]["password"]
 
 	if !ok || expectedPassword != creds.Password {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
+	roleid, ok := config.CONFIG.Users[creds.Username]["roleid"]
+	if !ok {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	fmt.Println("roleid:", roleid)
+
 	expirationTime := time.Now().Add(30 * time.Minute)
 	claims := &models.Claims{
 		Username: creds.Username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
-			Id:        "admin",
+			Id:        roleid,
 		},
 	}
 
@@ -68,7 +76,7 @@ func Refresh(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	claims := &models.Claims{}
- 
+
 	tkn, err := jwt.ParseWithClaims(authtoken, claims, func(token *jwt.Token) (interface{}, error) {
 		return config.CONFIG.JWTKey, nil
 	})
