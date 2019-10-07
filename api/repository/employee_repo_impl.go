@@ -29,7 +29,7 @@ func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
 	}
 
 	emp.Salary.EmpNo = int32(emp.ID)
-	salaryEmp := e.Db.Table("salaries").Create(&emp.Salary)
+	salaryEmp := e.Db.Table("employee_salaries").Create(&emp.Salary)
 	if salaryEmp.Error != nil {
 		fmt.Println("error2 ", salaryEmp.Error)
 		return salaryEmp.Error
@@ -49,6 +49,7 @@ func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
 func (e *EmployeeRepoIMPL) Read(empno int32) (models.EmployeeResponse, error) {
 	emp := models.Employee{}
 	dept := models.Department{}
+	sal := models.EmployeeSalary{}
 	response := models.EmployeeResponse{}
 	//getEmployee := e.Db.Table("employees").Where("id = ?", empno).Find(&emp)
 	getEmployee := e.Db.Table("employees").
@@ -83,6 +84,20 @@ func (e *EmployeeRepoIMPL) Read(empno int32) (models.EmployeeResponse, error) {
 		fmt.Println("error ", getDepartment.Error)
 		return response, getDepartment.Error
 	}
+
+	getSalary := e.Db.Table("employees").
+		Select("employee_salaries.*").
+		Joins("left join employee_salaries on employee_salaries.emp_no = employees.id").
+		Where("employees.id = ?", empno).
+		Find(&sal)
+
+	response.Salary = sal
+
+	if getSalary.Error != nil {
+		fmt.Println("error ", getSalary.Error)
+		return response, getSalary.Error
+	}
+
 	return response, nil
 }
 
