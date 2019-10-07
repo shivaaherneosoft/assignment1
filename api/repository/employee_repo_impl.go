@@ -46,14 +46,44 @@ func (e *EmployeeRepoIMPL) Create(emp models.Employee) error {
 }
 
 //Read -
-func (e *EmployeeRepoIMPL) Read(empno int32) (models.Employee, error) {
+func (e *EmployeeRepoIMPL) Read(empno int32) (models.EmployeeResponse, error) {
 	emp := models.Employee{}
-	getEmployee := e.Db.Table("employees").Where("id = ?", empno).Find(&emp)
+	dept := models.Department{}
+	response := models.EmployeeResponse{}
+	//getEmployee := e.Db.Table("employees").Where("id = ?", empno).Find(&emp)
+	getEmployee := e.Db.Table("employees").
+		Select("employees.*").
+		Joins("left join dept_emps on dept_emps.emp_no = employees.id").
+		Joins("left join departments on departments.id = dept_emps.dept_no").
+		Where("employees.id = ?", empno).
+		Find(&emp)
+
 	if getEmployee.Error != nil {
 		fmt.Println("error ", getEmployee.Error)
-		return emp, getEmployee.Error
+		return response, getEmployee.Error
 	}
-	return emp, nil
+
+	response.EmpID = int32(emp.ID)
+	response.BirthDate = emp.BirthDate
+	response.FirstName = emp.FirstName
+	response.LastName = emp.LastName
+	response.Gender = emp.Gender
+	response.HireDate = emp.HireDate
+
+	getDepartment := e.Db.Table("employees").
+		Select("departments.*").
+		Joins("left join dept_emps on dept_emps.emp_no = employees.id").
+		Joins("left join departments on departments.id = dept_emps.dept_no").
+		Where("employees.id = ?", empno).
+		Find(&dept)
+
+	response.Department = dept
+
+	if getDepartment.Error != nil {
+		fmt.Println("error ", getDepartment.Error)
+		return response, getDepartment.Error
+	}
+	return response, nil
 }
 
 //Update -

@@ -50,13 +50,12 @@ func (d *DepartmentRepoImpl) Update(dept models.Department) error {
 }
 
 //Delete -
-func (d *DepartmentRepoImpl) Delete(dept models.Department) error {
-	deleteDept := d.DB.Delete(&dept)
-
+func (d *DepartmentRepoImpl) Delete(deptno int32) error {
+	dept := models.Employee{}
+	deleteDept := d.DB.Where("id = ?", deptno).Delete(&dept)
 	if deleteDept.Error != nil {
 		fmt.Println("error ", deleteDept.Error)
 		return deleteDept.Error
 	}
-
 	return nil
 }
